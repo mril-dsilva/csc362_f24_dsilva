@@ -12,6 +12,7 @@ CREATE TABLE Movies (
     movie_id                  INT AUTO_INCREMENT,
     movie_title               VARCHAR(250),
     movie_release_date        DATE, -- Date data type?
+    -- WB: Yep, DATE is enough here. Use DATATIME if more precision is needed.
     movie_genre               VARCHAR(50) 
 );
 
@@ -24,6 +25,7 @@ CREATE TABLE Consumers (
     consumer_city                  VARCHAR(15),
     consumer_state                 VARCHAR(2),
     consumer_zip_code              VARCHAR(6) -- is this the best data type?
+    -- WB: Since zip codes can start with leading zeros, varchar is the best choice.
 );
 
 CREATE TABLE Ratings (
@@ -68,7 +70,7 @@ SELECT consumer_first_name, consumer_last_name, movie_title, rating_star_number
 -- FLAW IN THE DATABASE DESIGN
 /*
 According to me, the biggest flaw in this design is the Movie Genre field in the Movies table.
-It is a multi-value field, and thus it should have a seperate table with the genres listed,
+It is a multi-valued field, and thus it should have a seperate table with the genres listed,
 and then a linking table is needed since this is a many-to-many relationship.
 */
 
