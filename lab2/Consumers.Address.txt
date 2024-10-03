@@ -1,0 +1,59 @@
+FIELD SPECIFICATIONS
+
+GENERAL ELEMENTS
+
+Field Name:           Address
+Parent Table:         Consumers
+Alias(es):            _
+Specification Type:
+  Unique:  _
+  Generic: X
+  Replica: _
+Source Specification: _
+Shared By:            _
+Description:          The street address of the recorded consumer.
+
+PHYSICAL ELEMENTS
+
+Data Type:            VARCHAR
+Length:               256
+Decimal Places:       _
+Character Support:
+  Letters (A-Z):      X
+  Numbers (0-9):      X
+  Keyboard (.,/$#%):  X
+  Special (©®™Σπ):    _
+
+
+LOGICAL ELEMENTS
+
+Key Type:      Non:        X
+               Primary:    _
+               Foreign:    _
+               Alternate:  _
+
+Key Structure: Simple:     _
+               Composite:  _
+
+Uniqueness:    Non-unique: X
+               Unique:     _
+
+Null Support:  Nulls OK:   _
+               No nulls:   X
+
+Values Entered By: User:   X
+                   System: _
+
+Required Value:    No:     _
+                   Yes:    X
+
+Range of Values:  Alphanumeric values and keyboard special keys allowed.
+
+Edit Rule:
+  Enter now, edits allowed:       X
+  Enter now, edits not allowed:   _
+  Enter later, edits allowed:     _
+  Enter later, edits not allowed: _
+  Not determined at this time:    _
+
+NOTES: None
