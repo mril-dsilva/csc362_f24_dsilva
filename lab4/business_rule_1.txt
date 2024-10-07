@@ -4,7 +4,7 @@ RULE INFORMATION
 
 Statement:  "Our policy states that a rug can never be sold at a loss unless it has been in the inventory for 2+ years" 
 
-Constraint:  (sale_net_proceeds >= 0) OR [(Inventory.inventory_date_accquired - DATE) > 2 years ]
+Constraint:  (sale_price >= sale_original_price) OR [(Inventory.inventory_date_accquired - DATE) > 2 years ]
 
 Type:     Database Oriented:     Y 
           Application Oriented   _ 
