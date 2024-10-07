@@ -2,11 +2,10 @@ BUSINESS RULE SPECIFICATIONS
 
 RULE INFORMATION
 
-Statement:  "Our policy deems it impossible for the return date fields to be set before the sale/ trial date." 
+Statement:  "Our policy deems it impossible for the trial return dates (expected and actual) field to be set before the established trial date." 
 
-Constraint:  ( trial_returned_date >= trial_date_taken )
-	     ( trial_expected_return_date >= trial_date_taken )		     
-	     ( Returns.return_date >= Sales.sale_date )
+Constraint:  trial_returned_date >= trial_date_taken
+	     trial_expected_return_date >= trial_date_taken	     
 
 Type:     Database Oriented:     Y 
           Application Oriented   _ 
@@ -16,14 +15,14 @@ Category: Field Specific:        Y
 
 Test On:  Insert:                Y 
           Delete:                _ 
-          Update:                _
+          Update:                Y
 
 
 STRUCTURES AFFECTED
 
-Field Names: trial_expected_return_date, trial_returned_date, sale_date, trial_date_taken, return_date
+Field Names: sale_date, return_date
 
-Table Names: Sales, Returns, Trials
+Table Names: Sales, Returns
 
 
 FIELD ELEMENTS AFFECTED
