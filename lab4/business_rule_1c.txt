@@ -1,0 +1,56 @@
+BUSINESS RULE SPECIFICATIONS
+
+RULE INFORMATION
+
+Statement:  "Our policy states that a customer cannot return a rug before it has been sold." 
+
+Constraint: ( Returns.return_date >= Sales.sale_date )
+
+Type:     Database Oriented:     Y 
+          Application Oriented   _ 
+
+Category: Field Specific:        Y 
+          Relationship Specific: _ 
+
+Test On:  Insert:                Y 
+          Delete:                _ 
+          Update:                Y
+
+
+STRUCTURES AFFECTED
+
+Field Names: trial_expected_return_date, trial_returned_date, trial_date_taken,
+
+Table Names: Trials
+
+
+FIELD ELEMENTS AFFECTED
+
+Physical Elements: Data Type:           Y 
+                   Length:              _ 
+                   Character Support:   _ 
+
+Logical Elements:  Key Type:            _ 
+                   Key Structure:       _ 
+                   Uniqueness:          _ 
+                   Null Support:        _ 
+                   Values Entered By:   _ 
+                   Range of Values:     Y 
+                   Edit Rule:           _ 
+
+
+RELATIONSHIP CHARACTERISTICS AFFECTED
+
+    Deletion rule:              _
+    Type of participation:      _
+    Degree of participation:    _
+
+    
+ACTION TAKEN:
+
+Add CHECK constraint to the fields mentioned above. 
+
+
+NOTES: _
+
+
