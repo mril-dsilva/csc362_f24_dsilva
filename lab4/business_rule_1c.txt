@@ -9,8 +9,8 @@ Constraint: ( Returns.return_date >= Sales.sale_date )
 Type:     Database Oriented:     Y 
           Application Oriented   _ 
 
-Category: Field Specific:        Y 
-          Relationship Specific: _ 
+Category: Field Specific:        _ 
+          Relationship Specific: Y 
 
 Test On:  Insert:                Y 
           Delete:                _ 
