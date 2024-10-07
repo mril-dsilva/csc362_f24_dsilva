@@ -9,8 +9,8 @@ Constraint:  (sale_price >= sale_original_price) OR [(Inventory.inventory_date_a
 Type:     Database Oriented:     Y 
           Application Oriented   _ 
 
-Category: Field Specific:        Y
-          Relationship Specific: _ 
+Category: Field Specific:        _
+          Relationship Specific: Y 
 
 Test On:  Insert:                Y 
           Delete:                _
@@ -48,7 +48,7 @@ RELATIONSHIP CHARACTERISTICS AFFECTED
     
 ACTION TAKEN
 
-Add CHECK constraint to sale_net_proceeds
+Add TRIGGER with details in constraint section above
 
 
 NOTES: _
