@@ -5,7 +5,7 @@ DROP DATABASE IF EXISTS flying_carpets;
 
 CREATE DATABASE flying_carpets;
 
-/*Using our new school database*/
+/* Using our new flying_carpets database */
 USE flying_carpets;
 
 -- Create the validation tables for Countries, Styles, and Materials
@@ -30,12 +30,12 @@ CREATE TABLE Inventory (
     country_name VARCHAR(50),
     style_name VARCHAR(50),
     material_name VARCHAR(50),
-    inventory_width FLOAT(5,2),
-    inventory_length FLOAT(5,2),
-    inventory_year_made INT,
-    inventory_purchase_price FLOAT(10,2),
-    inventory_markup FLOAT(10,2),
-    inventory_date_acquired DATE,
+    inventory_width FLOAT(5,2) CHECK (inventory_width > 0),
+    inventory_length FLOAT(5,2) CHECK (inventory_length > 0),
+    inventory_year_made INT, --
+    inventory_purchase_price FLOAT(10,2) CHECK (inventory_purchase_price >= 0),
+    inventory_markup FLOAT(10,2) CHECK (inventory_markup >= 0),
+    inventory_date_acquired DATE, --
     PRIMARY KEY (inventory_id), 
     FOREIGN KEY (country_name) REFERENCES Countries(country_name),
     FOREIGN KEY (style_name) REFERENCES Styles(style_name),
@@ -60,40 +60,40 @@ CREATE TABLE Sales (
     customer_id INT,
     inventory_id INT,
     sale_date DATE,
-    sale_price FLOAT(10,2),
+    sale_price FLOAT(10,2) CHECK (sale_price >= 0),
     PRIMARY KEY (sale_id), 
-    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
-    FOREIGN KEY (inventory_id) REFERENCES Inventory(inventory_id)
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id) ON DELETE SET NULL,  -- (D)
+    FOREIGN KEY (inventory_id) REFERENCES Inventory(inventory_id) ON DELETE RESTRICT -- (R)
 );
 
--- Create the Returns table
+-- Create the Returns table with a constraint to ensure the return_date is valid
 CREATE TABLE Returns (
     return_id INT AUTO_INCREMENT,
     customer_id INT,
     inventory_id INT,
     sale_id INT,
     return_date DATE,
-    return_price_refunded FLOAT(10,2),
+    return_price_refunded FLOAT(10,2) CHECK (return_price_refunded >= 0),
     PRIMARY KEY (return_id), 
-    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
-    FOREIGN KEY (inventory_id) REFERENCES Inventory(inventory_id),
-    FOREIGN KEY (sale_id) REFERENCES Sales(sale_id)
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id) ON DELETE SET NULL,  -- (D)
+    FOREIGN KEY (inventory_id) REFERENCES Inventory(inventory_id) ON DELETE RESTRICT, -- (R)
+    FOREIGN KEY (sale_id) REFERENCES Sales(sale_id) ON DELETE RESTRICT -- (R)
 );
 
--- Create the Trials table
+-- Create the Trials table with constraints on the trial dates
 CREATE TABLE Trials (
     trial_id INT AUTO_INCREMENT,
     customer_id INT,
     inventory_id INT,
     trial_date_taken DATE,
-    trial_expected_return_date DATE,
+    trial_expected_return_date DATE CHECK (trial_expected_return_date > trial_date_taken),
     trial_returned_date DATE,
     PRIMARY KEY (trial_id), 
-    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
-    FOREIGN KEY (inventory_id) REFERENCES Inventory(inventory_id)
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id) ON DELETE SET NULL,  -- (D)
+    FOREIGN KEY (inventory_id) REFERENCES Inventory(inventory_id) ON DELETE RESTRICT -- (R)
 );
 
--- Validation table data: Countries, Styles and Materials
+-- Validation table data: Countries, Styles, and Materials
 INSERT INTO Countries (country_name) VALUES ('Turkey'), ('Iran'), ('India'), ('Afghanistan');
 INSERT INTO Styles (style_name) VALUES ('Ushak'), ('Tabriz'), ('Agra');
 INSERT INTO Materials (material_name) VALUES ('Wool'), ('Cotton'), ('Silk');
