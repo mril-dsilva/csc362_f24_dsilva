@@ -19,9 +19,9 @@ Test On:  Insert:                Y
 
 STRUCTURES AFFECTED
 
-Field Names: sale_price, inventory_date_accquired
+Field Names: sale_price
 
-Table Names: Sales, Inventory
+Table Names: Sales
 
 
 FIELD ELEMENTS AFFECTED
@@ -48,7 +48,7 @@ RELATIONSHIP CHARACTERISTICS AFFECTED
     
 ACTION TAKEN
 
-Add TRIGGER with details in constraint section above
+Add constraint with details in constraint section above
 
 
 NOTES: _
