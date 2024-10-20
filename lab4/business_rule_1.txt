@@ -9,8 +9,8 @@ Constraint:  (sale_price >= sale_original_price) OR [(Inventory.inventory_date_a
 Type:     Database Oriented:     Y 
           Application Oriented   _ 
 
-Category: Field Specific:        _
-          Relationship Specific: Y 
+Category: Field Specific:        Y
+          Relationship Specific: _ 
 
 Test On:  Insert:                Y 
           Delete:                _
