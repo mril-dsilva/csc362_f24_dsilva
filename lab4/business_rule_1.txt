@@ -19,9 +19,9 @@ Test On:  Insert:                Y
 
 STRUCTURES AFFECTED
 
-Field Names: sale_net_proceeds 
+Field Names: sale_price, inventory_date_accquired
 
-Table Names: Sales
+Table Names: Sales, Inventory
 
 
 FIELD ELEMENTS AFFECTED
