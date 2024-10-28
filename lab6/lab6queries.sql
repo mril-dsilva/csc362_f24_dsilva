@@ -74,7 +74,7 @@ SELECT climber_first_name, climber_last_name
         INNER JOIN climbers
         USING (climber_id)
     WHERE region_name = "Miller Fork"
-    GROUP BY climbs.climber_last_name;
+    GROUP BY climbers.climber_last_name; -- WB: Fixed.
 
 -- 9
 SELECT grade_str,
@@ -92,7 +92,7 @@ SELECT grade_str,
         USING (grade_id)
     GROUP BY climb_grades.grade_str;
 
--- 11
+-- 11 -- This is not quite right, according to the test cases.
 SELECT climber_first_name, climber_last_name, 
        CONCAT(MAX(grade_str)) AS "maximum grades"
     FROM climbers
