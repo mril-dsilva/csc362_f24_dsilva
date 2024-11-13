@@ -46,11 +46,19 @@ RETURN (
 -- Min/Max Pokemon Trigger
 DELIMITER //
 
+CREATE OR REPLACE PROCEDURE check_min_party_size (IN t_id INT, IN pkmn_in_prty BOOLEAN)
+BEGIN
+    IF (pokemon_party_count(t_id) = 1 AND pkmn_in_prty = FALSE) THEN -- May throw false positives when setting false to false.
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'A trainer must have at least 1 Pokemon in their party!';
+    END IF;
+END//
+
+
 CREATE TRIGGER pokemon_max_party_size
 BEFORE INSERT ON pokemon
 FOR EACH ROW
 BEGIN
-    IF (pokemon_party_count(NEW.trainer_id) >= 6 AND NEW.pokemon_is_in_party = TRUE) THEN
+    IF (pokemon_party_count(NEW.trainer_id) >= 6 AND NEW.pokemon_is_in_party = TRUE) THEN -- Q: Can these 3 lines be turned into a stored procedure to make it more reusable? A: Yes.
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'A trainer cannot have more than 6 Pokemon in their party!';
     END IF;
 END//
@@ -59,13 +67,15 @@ CREATE TRIGGER pokemon_min_party_size
 BEFORE UPDATE ON pokemon
 FOR EACH ROW
 BEGIN
-    IF (pokemon_party_count(NEW.trainer_id) = 1 AND NEW.pokemon_is_in_party = FALSE) THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'A trainer must have at least 1 Pokemon in their party!';
-    END IF;
+    -- IF (pokemon_party_count(NEW.trainer_id) = 1 AND NEW.pokemon_is_in_party = FALSE) THEN -- May throw false positives when setting false to false.
+    --     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'A trainer must have at least 1 Pokemon in their party!';
+    -- END IF;
+    CALL check_min_party_size(NEW.trainer_id, NEW.pokemon_is_in_party);
+    -- CALL check_max_party_size(...);
 END//
 DELIMITER ;
 
--- Pokemons trainer id retreival
+-- Pokemons trainer id retrieval
 DROP FUNCTION IF EXISTS pokemons_trainer;
 CREATE FUNCTION pokemons_trainer(pokemon_id INT)
 RETURNS INT

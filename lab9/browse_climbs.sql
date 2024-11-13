@@ -1,4 +1,4 @@
-
+USE red_river_climbs;
 DROP FUNCTION IF EXISTS get_first_ascent;
 CREATE FUNCTION get_first_ascent(climb_id INT)
 RETURNS VARCHAR(64)
