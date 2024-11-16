@@ -1,7 +1,7 @@
 USE red_river_climbs;
 DROP FUNCTION IF EXISTS get_first_ascent;
 CREATE FUNCTION get_first_ascent(climb_id INT)
-RETURNS VARCHAR(64)
+RETURNS VARCHAR(2048)
 RETURN (
     SELECT GROUP_CONCAT(CONCAT(climber_first_name, ' ', climber_last_name))
     FROM climber_first_ascents 

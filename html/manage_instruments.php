@@ -1,18 +1,34 @@
 <?php
+    session_start();
 
+    if (!array_key_exists('num_deleted', $_SESSION)){ 
+        $_SESSION['num_deleted'] = 0;
+    }
+
+    if (isset($_POST['logout'])){
+    session_unset();
+    header("Location: {$_SERVER['REQUEST_URI']}", true, 303);
+    exit(); 
+    }
+
+    if (isset($_POST['username'])) {
+    $_SESSION['username'] = $_POST['username'];
+    header("Location: {$_SERVER['REQUEST_URI']}", true, 303);
+    exit(); 
+    }
+    
+?>
+<!-- - - - - - - - -FUNCTION DEFINITION TO CREATE/ LOAD HTML- - - - - - - - - - - - -->
+<?php
 function result_to_html_table($result) {
         $qryres = $result->fetch_all();
         $n_rows = $result->num_rows;
         $n_cols = $result->field_count;
         $fields = $result->fetch_fields();
         ?>
-        <!-- Description of table - - - - - - - - - - - - - - - - - - - - -->
-        <!-- <p>This table has <?php //echo $n_rows; ?> and <?php //echo $n_cols; ?> columns.</p> -->
-        
-        <!-- Begin header - - - - - - - - - - - - - - - - - - - - -->
-        <!-- Using default action (this page). -->
         <form method="POST">
             <table>
+            <!-- Begin Header - - - - - - - - - - - - - - - - - - - - - -->  
             <thead>
             <tr>
             <td><b>Delete?</b></td>
@@ -22,7 +38,7 @@ function result_to_html_table($result) {
             </tr>
             </thead>
             
-            <!-- Begin body - - - - - - - - - - - - - - - - - - - - - -->
+            <!-- Begin Body - - - - - - - - - - - - - - - - - - - - - -->
             <tbody>
             <?php for ($i=0; $i<$n_rows; $i++){ ?>
                 <?php $id = $qryres[$i][0]; 
@@ -41,40 +57,34 @@ function result_to_html_table($result) {
                 </tr>
             <?php } ?>
             </tbody></table>
+
+        <!-- Begin Buttons - - - - - - - - - - - - - - - - - - - - - -->
             <p><input type="submit" name="delbtn" value="Delete Selected Records" /></p>
+            <p><input type="submit" name="add_records" value="Add extra records" /></p>
+
         </form>
 <?php } ?>
 
-<?php
-    $conn = new mysqli( 'localhost', 'mril', 'mril', 'instrument_rentals');    // 1
-    $sel_tbl = file_get_contents($sql_location . 'select_instruments.sql');         // 2
-    $result = $conn->query($sel_tbl);   // 3
-    result_to_html_table($result);      // 4
-?>
-
-<form method="POST">
-<input type="submit" name="add_records" value="Add extra records" />
-</form>
-
+<!-- - - - - - - - -HANDLING ADDITION OF RECORDS- - - - - - - - - - - - -->
 <?php
 if (array_key_exists('add_records', $_POST)) {
     $conn = new mysqli('localhost', 'mril', 'mril', 'instrument_rentals');
 
     $add_sql = file_get_contents($sql_location .'add_instruments.sql');
     
-    if ($conn->query($add_sql) === TRUE) {
-        // Redirect the client to this page, but using a get request this time.
-        // Code 303 means "See other"
+    if ($conn->query($add_sql) === FALSE) {
+        echo "Error: " . $conn->error;
+        exit();
+
+    } else {
+        $conn->close();
         header("Location: {$_SERVER['REQUEST_URI']}", true, 303);
         exit();
-    } else {
-        echo "Error: " . $conn->error;
     }
-
-    $conn->close();
 }
 ?>
 
+<!-- - - - - - - - -HANDLING DELETION OF RECORDS- - - - - - - - - - - - -->
 <?php
 if (array_key_exists('delbtn', $_POST)) {
     /*echo "<pre>";
@@ -99,3 +109,12 @@ if (array_key_exists('delbtn', $_POST)) {
     exit();
 }
 ?>
+
+<!-- - - - - - - - -LOADING SQL AND CALLING HTML TO EXECUTE- - - - - - - - - - - - -->
+<?php
+    $conn = new mysqli( 'localhost', 'mril', 'mril', 'instrument_rentals');    // 1
+    $sel_tbl = file_get_contents($sql_location . 'select_instruments.sql');         // 2
+    $result = $conn->query($sel_tbl);   // 3
+    result_to_html_table($result);      // 4
+?>
+
